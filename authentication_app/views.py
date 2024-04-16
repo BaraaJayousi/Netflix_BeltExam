@@ -8,6 +8,8 @@ from django.contrib import messages
 #renders authentication page
 def render_auth_page(request):
   if request.method == "GET":
+    if 'user_id' in request.session:
+      return redirect(reverse("shows:render_shows"))
     #render auth template
     return render(request, 'auth_page.html')
 
