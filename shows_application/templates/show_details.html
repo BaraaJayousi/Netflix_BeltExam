@@ -1,0 +1,45 @@
+{% extends 'main_layout.html' %}
+
+{% block user_greeting %}Welcome to your NETFLIX, {{logged_user.first_name}} {% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-6">
+    <h2>Recommend a New Show</h2>
+  </div>
+  <div class="col-6 text-end">
+    <a href="{% url 'shows:render_shows' %}" class="btn btn-primary w-25">Back to TV Shows</a>
+  </div>
+</div>
+<div class="row mb-5">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">
+        {{show.title}}
+      </h5>
+      <h6 class="card-subtitle mb-2 text-body-secondary">Recommended By: {{show.user.first_name}} {{show.user.last_name}}</h6>
+    </div>
+    <div class="row">
+      <h6>Network:</h6>
+      <p>{{show.network}}</p>
+    </div>
+    <div class="row">
+      <h6>Release_date:</h6>
+      <p>{{show.release_date}}</p>
+    </div>
+    <div class="row">
+      <h6>{{show.user.first_name}}'s Comments:</h6>
+      <p>{{show.comments}}</p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  {% if request.session.user_id != show.user.id%}
+  <form action="#" method="post">
+    <label class="form-label" for="user_comment">Post a Comment</label>
+    <input type="text" class="form-control mb-2" name="user_comment" id="user_comment">
+    <input type="submit" class="btn btn-primary" value="Post comment">
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

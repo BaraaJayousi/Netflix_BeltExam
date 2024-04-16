@@ -1,0 +1,50 @@
+{% extends 'main_layout.html' %}
+
+{% block user_greeting %}Welcome to your NETFLIX, {{logged_user.first_name}} {% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+  <div class="col-6">
+    <h2>Recommend a New Show</h2>
+    <h6 class="text-danger">Please provide a comment</h6>
+  </div>
+  <div class="col-6 text-end">
+    <a href="{% url 'shows:render_shows' %}" class="btn btn-primary w-25">Back to TV Shows</a>
+  </div>
+</div>
+<div class="row">
+  <form {% if show%} action="{% url 'shows:update_show' %}" {% else %}  action="{% url 'shows:create_new_show' %}" {% endif %} method="post">
+    {% csrf_token %}
+    {%if messages %}
+      {% for message in messages %}
+      <li class="text-danger">{{message}}</li>
+      {% endfor %}
+    {% endif %}
+
+    {% if show %} 
+    <input type="hidden" name="show_id" value="{{show.id}}">
+    {% endif %}
+    <div class="row mb-3">
+      <label class="form-label" for="show_title">Title</label>
+      <input class="form-control" type="text" name="show_title" required id="show_title" {% if show %} value="{{show.title}}"{% endif %}>
+    </div>
+    <div class="row mb-3">
+      <label class="form-label" for="show_network">Network</label>
+      <input class="form-control" type="text" name="show_network" required id="show_network" {% if show %} value="{{show.network}}"{% endif %}>
+    </div>
+    <div class="row mb-3">
+      <label class="form-label" for="show_release_date">Release Date</label>
+      <input class="form-control" type="date" name="show_release_date" required id="show_release_date" {% if show %} value="{{show.release_date|date:'Y-m-d'}}"{% endif %}>
+    </div>
+    <div class="row mb-3">
+      <label class="form-label" for="show_comment">Comments</label>
+      <textarea class="form-control" name="show_comment" required id="show_comment" cols="30" rows="5">{% if show %} {{show.comments}}{% endif %}</textarea>
+    </div>
+    <div class="row">
+      <div class="col-3 p-0 offset-9 text-end">
+        <input class="btn btn-primary w-50" type="submit" {% if show %} value="Update" {% else %} value="Add"{% endif %}>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

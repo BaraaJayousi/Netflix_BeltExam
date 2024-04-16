@@ -1,0 +1,72 @@
+{% extends 'main_layout.html' %}
+
+{% block content %}
+<div class="row mb-3 g-5 justify-content-between">
+    <div class="col-5">
+        <h1 class="mb-3">Registration</h1>
+        <form action="{% url 'auth:register_user' %}" method="post">
+            {% csrf_token %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    {% if message.extra_tags == "register_error" %}
+                    <li class="text-danger">{{message}}</li>
+                    {% endif %}                
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <div class="row mb-3">
+                <label class="form-label p-0" for="f_name">First Name:</label>
+                <input type="text" name="f_name" id="f_name" class="form-control" required>
+            </div>
+            <div class="row mb-3">
+                <label class="form-label p-0" for="l_name">Last Name:</label>
+                <input type="text" name="l_name" id="l_name" class="form-control" required>
+            </div>
+            <div class="row mb-3">
+                <label class="form-label p-0" for="email">Email:</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+            <div class="row mb-3">
+                <label class="form-label p-0" for="password">Password:</label>
+                <input type="password" name="password" id="password" class="form-control" required>
+            </div>
+            <div class="row mb-3">
+                <label class="form-label p-0" for="confirm_pw">Confirm PW:</label>
+                <input type="password" name="confirm_pw" id="confirm_pw" class="form-control" required>
+            </div>
+            <div class="row">
+                <div class="col-4 p-0">
+                    <input type="submit" value="Register" class="btn btn-primary w-100">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-5">
+        <h1 class="mb-3">Login</h1>
+        <form action="{% url 'auth:login_user' %}" method="post">
+            {% csrf_token %}
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.extra_tags == 'login_error' %}
+                    <p class="text-danger">{{message}}</p>
+                    {% endif %}
+                {%  endfor %}
+            {% endif %}
+            <div class="row mb-3">
+                <label class="form-label p-0" for="email">Email:</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+            <div class="row mb-3">
+                <label class="form-label p-0" for="password">Password:</label>
+                <input type="password" name="password" id="password" class="form-control" required>
+            </div>
+            <div class="row">
+                <div class="col-4 p-0">
+                    <input type="submit" value="Login" class="btn btn-primary w-100">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
